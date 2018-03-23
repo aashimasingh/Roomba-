@@ -33,25 +33,31 @@ labelNodes()
 
 def checkAround(i,j):
     arc = []
+    if (numericLabel[i][j] in valid):
+        arc.append(numericLabel[i][j])
     if (numericLabel[i][j] in charging):
         arc.append(-1)
         #arc.append(numericLabel[i][j])
-    if (numericLabel[i+1][j] in valid):
-        arc.append(numericLabel[i+1][j])
-    if (numericLabel[i][j+1] in valid):
-        arc.append(numericLabel[i][j+1])
-    if (numericLabel[i-1][j] in valid):
-        arc.append(numericLabel[i-1][j])
-    if (numericLabel[i][j-1] in valid):
-        arc.append(numericLabel[i][j-1])
-    if ((numericLabel[i][j-1] in charging) or (numericLabel[i-1][j] in charging)):
+    if ((i+1) < len(data)):
+        if (numericLabel[i+1][j] in valid):
+            arc.append(numericLabel[i+1][j])
+    if ((j+1)< len(data)):
+        if (numericLabel[i][j+1] in valid):
+            arc.append(numericLabel[i][j+1])
+    if ((i-1) >= 0):
+        if (numericLabel[i-1][j] in valid):
+            arc.append(numericLabel[i-1][j])
+    if ((j-1) >= 0):
+        if (numericLabel[i][j-1] in valid):
+            arc.append(numericLabel[i][j-1])
+        if ((numericLabel[i][j-1] in charging) or (numericLabel[i-1][j] in charging)):
         #arc.append(numericLabel[i][j-1])
-        arc.append(900)
+            arc.append(900)
     return arc
 
 arclist = []
-for i in range(1,len(data)-1):
-    for j in range(1,len(data)-1):
+for i in range(0,len(data)):
+    for j in range(0,len(data)):
         if numericLabel[i][j] in valid:
             arclist.append(checkAround(i,j))
         if numericLabel[i][j] in charging:
@@ -59,4 +65,12 @@ for i in range(1,len(data)-1):
             arclist.append(checkAround(i,j))
             
 #print(arclist)
+dirtnodelist = []
+for i in range(len(data)):
+    for j in range(len(data)):
+        if numericLabel[i][j] in valid:
+            minilist = []
+            minilist.append(numericLabel[i][j])
+            minilist.append(data[i][j])
+            dirtnodelist.append(minilist)
         
